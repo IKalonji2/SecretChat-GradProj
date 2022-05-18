@@ -34,6 +34,7 @@ io.use((socket, next) => {
     socket.userInfo = {
         username: socket.handshake.auth.username,
         usernameSelected: socket.handshake.auth.usernameSelected,
+        publicKey: socket.handshake.auth.publicKey
     };
     next();
 });
@@ -57,6 +58,7 @@ io.on('connection', (socket) => {
 
     // forward the private message to the right recipient
     socket.on('private message', ({ content, to }) => {
+        console.log(`message from ${socket.id} to ${to} saying \"${content}\"`)
         socket.to(to).emit('private message', {
             content,
             from: socket.id,

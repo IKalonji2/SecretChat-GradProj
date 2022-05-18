@@ -26,26 +26,51 @@
     </section>
 
     <script src="./socket.io/socket.io.js"></script>
+    <script src="/lib/openpgp.min.js"></script>
     <script>
-        const socket = io(/*{ autoConnect: false }*/);
+        const socket = io({ autoConnect: false });
         const users = [];
+        let myPrivateKey;        
+
+
+        (async () => {
+            const username = prompt("Please enter a username");
+            socket.auth = { username, usernameSelected: true };
+
+            const { privateKey, publicKey, revocationCertificate } = await openpgp.generateKey({
+                type: 'ecc', // Type of the key, defaults to ECC
+                curve: 'curve25519', // ECC curve name, defaults to curve25519
+                userIDs: [{ name: username }], // you can pass multiple user IDs
+                format: 'armored' // output key format, defaults to 'armored' (other options: 'binary' or 'object')
+            });
+
+            myPrivateKey = privateKey;
+            socket.auth.publicKey = publicKey;
+            socket.connect();
+
+        })();
 
         socket.onAny((event, ...args) => {
             console.log(event, args);
         });
 
         const initReactiveProperties = (user) => {
-            console.log('USER:', user);
+            console.log('INIT USER:', user);
             user.connected = true;
             user.messages = [];
             user.hasNewMessages = false;
         };
 
         socket.on('user connected', (user) => {
+            //FIX: new users not being added to user list correctly
             initReactiveProperties(user);
             users.push(user);
-            console.log('USERS:', users);
-        })
+            console.log('USERS AFTER NEW CONNECTION:', users);
+        });
+
+        socket.on('connect', ()=>{
+            console.log("test");
+        });
 
         socket.on('users', (users) => {
             console.log('USERS[SOCKER.ON("USERS")] BEFORE SORT', users);
@@ -64,6 +89,36 @@
             console.log('USERS[SOCKER.ON("USERS")] AFTER SORT', users);
         });
 
+
+        socket.on("private message", async ({ content, from }) => {
+            console.log(`message from ${from} saying \"${content}\"`);
+
+            const sendingUser = users.find(user => user.userID === from);
+
+            const privateKey = await openpgp.readKey({ armoredKey: myPrivateKey });
+            const publicKey = await openpgp.readKey({ armoredKey: sendingUser.userInfo.publicKey });
+
+            const message = await openpgp.readMessage({
+                armoredMessage: content // parse armored message
+            });
+
+            const { data: decrypted, signatures } = await openpgp.decrypt({
+                message,
+                verificationKeys: publicKey,
+                decryptionKeys: privateKey
+            });
+
+            console.log("MESSAGE:", decrypted);
+
+            try {
+                await signatures[0].verified; // throws on invalid signature
+                console.log('Signature is valid');
+            } catch (e) {
+                throw new Error('Signature could not be verified: ' + e.message);
+            }
+
+        });
+
         function onUsernameSelection(event) {
             event.preventDefault();
             let username = document.getElementById('username').value;
@@ -79,16 +134,34 @@
             event.preventDefault();
             alert('Emoticons Pressed');
         }
-        function sendMessage(event) {
+        async function sendMessage(event) {
             event.preventDefault();
+            //TODO: Get user from selected chat
+            const receivingUser = this.users.find(user => user.userInfo.username === "recipient");
+
             const formData = new FormData(event.target);
             const formProps = Object.fromEntries(formData);
+
+            const textMessage = formProps['input-message'];
+            const publicKey = await openpgp.readKey({ armoredKey: receivingUser.userInfo.publicKey });
+            const privateKey = await openpgp.readKey({ armoredKey: myPrivateKey });
+            const encrypted = await openpgp.encrypt({
+                message: await openpgp.createMessage({ text: textMessage }), // input as Message object
+                encryptionKeys: publicKey,
+                signingKeys: privateKey
+            });
+            console.log(encrypted);
+
+            socket.emit("private message", {
+                content: encrypted,
+                to: receivingUser.userID
+            })
             alert(formProps['input-message']);
         }
 
-        socket.on('connect-error', (err) => {
+        socket.on('connect_error', (err) => {
             if (err.message === 'invalid username') {
-                //this.usernameSelected = false;
+                this.usernameSelected = false;
             }
         });
     </script>
