@@ -14,53 +14,11 @@
             </div>
             <div class="contacts">
                 <div class="contacts-header">
-                    <!-- <div class="img-holder"></div> -->
                     <div class="username"><p>Username</p></div>
                 </div>
-                <div class="contact profile">
-                    <div class="img-holder"></div>
-                    <div class="username"><p>Username</p></div>
-                </div>
-                <div class="contact profile">
-                    <div class="img-holder"></div>
-                    <div class="username"><p>Username</p></div>
-                </div>
-                <div class="contact profile">
-                    <div class="img-holder"></div>
-                    <div class="username"><p>Username</p></div>
-                </div>
-                <div class="contact profile">
-                    <div class="img-holder"></div>
-                    <div class="username"><p>Username</p></div>
-                </div>
-                <div class="contact profile">
-                    <div class="img-holder"></div>
-                    <div class="username"><p>Username</p></div>
-                </div>
-                <div class="contact profile">
-                    <div class="img-holder"></div>
-                    <div class="username"><p>Username</p></div>
-                </div>
-                <div class="contact profile">
-                    <div class="img-holder"></div>
-                    <div class="username"><p>Username</p></div>
-                </div>
-                <div class="contact profile">
-                    <div class="img-holder"></div>
-                    <div class="username"><p>Username</p></div>
-                </div>
-                <div class="contact profile">
-                    <div class="img-holder"></div>
-                    <div class="username"><p>Username</p></div>
-                </div>
-                <div class="contact profile">
-                    <div class="img-holder"></div>
-                    <div class="username"><p>Username</p></div>
-                </div>
-                <div class="contact profile">
-                    <div class="img-holder"></div>
-                    <div class="username"><p>Username</p></div>
-                </div>
+                <% for( let index = 0; index < users.length; index++ ) { %>
+                    <%- include('../partials/user.ejs', users[index]) %> 
+                <% } %>
             </div>
         </aside>
   

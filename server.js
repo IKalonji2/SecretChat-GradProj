@@ -9,7 +9,19 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', (request, response) => {
     response.render('pages/index', {
-        usernameSelected: false,
+        users: [
+            { user: { username: 'Lebus', imageUrl: 'https://randomuser.me/api/portraits/men/9.jpg', hasNewMessages: true } },
+            { user: { username: 'Lebus', imageUrl: 'https://randomuser.me/api/portraits/men/9.jpg', hasNewMessages: true } },
+            { user: { username: 'Lebus', imageUrl: 'https://randomuser.me/api/portraits/men/9.jpg', hasNewMessages: true } },
+            { user: { username: 'Lebus', imageUrl: 'https://randomuser.me/api/portraits/men/9.jpg', hasNewMessages: true } },
+            { user: { username: 'Lebus', imageUrl: 'https://randomuser.me/api/portraits/men/9.jpg', hasNewMessages: true } },
+            { user: { username: 'Lebus', imageUrl: 'https://randomuser.me/api/portraits/men/9.jpg', hasNewMessages: true } },
+            { user: { username: 'Lebus', imageUrl: 'https://randomuser.me/api/portraits/men/9.jpg', hasNewMessages: true } },
+            { user: { username: 'Lebus', imageUrl: 'https://randomuser.me/api/portraits/men/9.jpg', hasNewMessages: true } },
+            { user: { username: 'Lebus', imageUrl: 'https://randomuser.me/api/portraits/men/9.jpg', hasNewMessages: true } },
+            { user: { username: 'Lebus', imageUrl: 'https://randomuser.me/api/portraits/men/9.jpg', hasNewMessages: true } },
+            { user: { username: 'Lebus', imageUrl: 'https://randomuser.me/api/portraits/men/9.jpg', hasNewMessages: true } },
+        ],
     });
 });
 

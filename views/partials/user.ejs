@@ -1,7 +1,7 @@
 <main class="contact profile">
     <section class="img-holder"><img src="<%= user.imageUrl %>" alt="profile picture"></section>
     <section class="username"><p><%= user.username %> </p></section>
-    <% if (hasNewMessages) { %> 
+    <% if (user.hasNewMessages) { %> 
     <section class="new-messages">!</section>
     <% } %>
 </main>

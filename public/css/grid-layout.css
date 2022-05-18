@@ -80,7 +80,7 @@ section {
 .contact.profile {
     flex-direction: row;
     align-items: flex-start;
-    margin: 18px;
+    margin: 2vh 1.5vw 0 1.5vw;
     gap: 10px;
 }
 
@@ -183,10 +183,9 @@ section {
 }
 
 .contact.profile .img-holder {
-    background: beige;
-    height: 55px;
-    width: 60px;
-    margin: 6px 10px 5px 15px;
+    height: 6vh;
+    width: 4vw;
+    margin: .5vh .5vw .5vh .8vw;
     border-radius: 10px;
 }
 
@@ -209,6 +208,14 @@ section {
     padding-left: .2rem;
     overflow: hidden;
     margin: 1vh;
+    border-radius: 10px;
+}
+
+.contact.profile .img-holder img {
+    height:5vh;
+    width: 4vw;
+    overflow: hidden;
+    margin: .5vh .1vw .5vh .1vw;
     border-radius: 10px;
 }
 
@@ -265,7 +272,16 @@ section {
     object-fit: contain;
 }
 
-
+.new-messages {
+    color: white;
+    background-color: #2CB67D;
+    width: 20px;
+    border-radius: 5px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: 4vw;
+    margin-top: 2.5vh;
+}
 
 @media screen and (max-width: 600px) {
     .container {
