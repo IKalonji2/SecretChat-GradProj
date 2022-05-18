@@ -1,0 +1,61 @@
+<article class="chat-wrapper">
+    <div class="recipient profile">
+        <div class="img-holder"><img src="<%= user.imageUrl %>" alt="profile picture"></div>
+        <div class="username">
+            <p><%= user.username %></p>
+            <% if (user.online) { %>
+            <span><p>online</p></span>
+            <% } else { %>
+            <span class="offline"><p>offline</p></span>
+            <% } %> 
+        </div>
+    </div>
+    <div class="messages">
+        <div class="recipient-messages">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+        </div>
+        <div class="user-messages">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+        </div>
+        <div class="recipient-messages">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+        </div>
+        <div class="recipient-messages">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+        </div>
+        <div class="user-messages">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+        </div>
+        <div class="user-messages">
+            <p>Lorem ipsum dolor sit amet</p>
+        </div>
+        <div class="recipient-messages">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+        </div>
+        <div class="recipient-messages">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+        </div>
+        <div class="user-messages">
+            <p>Lorem ipsum dolor sit amet</p>
+        </div>
+        <div class="recipient-messages">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+        </div>
+    </div>
+    <div class="chat-footer">
+        <form onsubmit="sendMessage(event)" class="form-inline">
+            <div class="attachment">
+                <button><img src="attachment.png" alt="attach file"></button>
+            </div>
+            <div class="emoticons">
+                <button><img class="icon" src="emoticons.png" alt="show emoticons"></button>
+            </div>
+            <div id="input-message">
+                <textarea name="input-message" id="input-message"></textarea>
+            </div>
+            <div class="send-message">
+                <button><i><img class="icon" src="send.png" alt="send message"></i></button>
+            </div>
+        </form>
+    </div>
+</article>

@@ -95,6 +95,21 @@ section {
     height: 7vh;
 }
 
+.recipient.profile .username p {
+    margin: 1.5vh 0 0 0;
+    padding-bottom: 0;
+}
+
+.recipient.profile .username span p {
+    font-size: 12px;
+    margin: 0;
+    color: #2CB67D;
+}
+
+.recipient.profile .username span.offline p {
+    color: #7F5AF0;
+}
+
 .messages {
     display: flex;
     flex-direction: column-reverse;
@@ -175,12 +190,26 @@ section {
     border-radius: 10px;
 }
 
+.recipient.profile .img-holder {
+    height: 7vh;
+    border-radius: 15px;
+}
+
 .user.profile .img-holder {
     background: beige;
     height: 60px;
     width: 60px;
     margin: 10px 10px 10px 15px;
     border-radius: 5px;
+}
+
+.recipient.profile .img-holder img {
+    height:5vh;
+    max-width:100%;
+    padding-left: .2rem;
+    overflow: hidden;
+    margin: 1vh;
+    border-radius: 10px;
 }
 
 .chat-footer {
