@@ -1,0 +1,191 @@
+<html lang="en">
+<head>
+    <%- include('../partials/head.ejs'); %>
+</head>
+<body class="container">
+    <!-- <header>
+    </header> -->
+  
+    <section class="container">
+        <aside class="profiles-wrapper">
+            <div class="user profile">
+                <div class="img-holder"></div>
+                <div class="username"><p>Username</p></div>
+            </div>
+            <div class="contacts">
+                <div class="contacts-header">
+                    <!-- <div class="img-holder"></div> -->
+                    <div class="username"><p>Username</p></div>
+                </div>
+                <div class="contact profile">
+                    <div class="img-holder"></div>
+                    <div class="username"><p>Username</p></div>
+                </div>
+                <div class="contact profile">
+                    <div class="img-holder"></div>
+                    <div class="username"><p>Username</p></div>
+                </div>
+                <div class="contact profile">
+                    <div class="img-holder"></div>
+                    <div class="username"><p>Username</p></div>
+                </div>
+                <div class="contact profile">
+                    <div class="img-holder"></div>
+                    <div class="username"><p>Username</p></div>
+                </div>
+                <div class="contact profile">
+                    <div class="img-holder"></div>
+                    <div class="username"><p>Username</p></div>
+                </div>
+                <div class="contact profile">
+                    <div class="img-holder"></div>
+                    <div class="username"><p>Username</p></div>
+                </div>
+                <div class="contact profile">
+                    <div class="img-holder"></div>
+                    <div class="username"><p>Username</p></div>
+                </div>
+                <div class="contact profile">
+                    <div class="img-holder"></div>
+                    <div class="username"><p>Username</p></div>
+                </div>
+                <div class="contact profile">
+                    <div class="img-holder"></div>
+                    <div class="username"><p>Username</p></div>
+                </div>
+                <div class="contact profile">
+                    <div class="img-holder"></div>
+                    <div class="username"><p>Username</p></div>
+                </div>
+                <div class="contact profile">
+                    <div class="img-holder"></div>
+                    <div class="username"><p>Username</p></div>
+                </div>
+            </div>
+        </aside>
+  
+        <article class="chat-wrapper">
+            <div class="recipient profile">
+                <div class="img-holder"></div>
+                <div class="username"><p>Username</p></div>
+            </div>
+            <div class="messages">
+                <div class="recipient-messages">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+                </div>
+                <div class="user-messages">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+                </div>
+                <div class="recipient-messages">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+                </div>
+                <div class="recipient-messages">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+                </div>
+                <div class="user-messages">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+                </div>
+                <div class="user-messages">
+                    <p>Lorem ipsum dolor sit amet</p>
+                </div>
+                <div class="recipient-messages">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+                </div>
+                <div class="recipient-messages">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+                </div>
+                <div class="user-messages">
+                    <p>Lorem ipsum dolor sit amet</p>
+                </div>
+                <div class="recipient-messages">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</p>
+                </div>
+            </div>
+            <div class="chat-footer">
+                <form onsubmit="sendMessage(event)" class="form-inline">
+                    <div class="attachment">
+                        <button><img src="attachment.png" alt="attach file"></button>
+                    </div>
+                    <div class="emoticons">
+                        <button><img class="icon" src="emoticons.png" alt="show emoticons"></button>
+                    </div>
+                    <div id="input-message">
+                        <textarea name="input-message" id="input-message"></textarea>
+                    </div>
+                    <div class="send-message">
+                        <button><i><img class="icon" src="send.png" alt="send message"></i></button>
+                    </div>
+                </form>
+            </div>
+        </article>
+    </section>
+
+    <script src="./socket.io/socket.io.js"></script>
+    <script>
+        const socket = io(/*{ autoConnect: false }*/);
+        const users = [];
+
+        socket.onAny((event, ...args) => {
+            console.log(event, args);
+        });
+
+        const initReactiveProperties = (user) => {
+            console.log('USER:', user);
+            user.connected = true;
+            user.messages = [];
+            user.hasNewMessages = false;
+        };
+
+        socket.on('user connected', (user) => {
+            initReactiveProperties(user);
+            users.push(user);
+            console.log('USERS:', users);
+        })
+
+        socket.on('users', (users) => {
+            console.log('USERS[SOCKER.ON("USERS")] BEFORE SORT', users);
+            users.forEach((user) => {
+                user.self = user.userID === socket.id;
+                initReactiveProperties(user);
+            });
+            console.log('USERS[SOCKER.ON("USERS")] AFTER IRP', users);
+            // put the current user first, and sort by username
+            this.users = users.sort((a, b) => {
+                if (a.self) return -1;
+                if (b.self) return 1;
+                if (a.userInfo.username < b.userInfo.username) return -1;
+                return a.userInfo.username > b.userInfo.username ? 1 : 0;
+            });
+            console.log('USERS[SOCKER.ON("USERS")] AFTER SORT', users);
+        });
+
+        function onUsernameSelection(event) {
+            event.preventDefault();
+            let username = document.getElementById('username').value;
+            socket.auth = { username, usernameSelected: true }
+            socket.connect();
+        }
+
+        function attachment(event) {
+            event.preventDefault();
+            alert('Attachment Pressed');
+        }
+        function emoticons(event) {
+            event.preventDefault();
+            alert('Emoticons Pressed');
+        }
+        function sendMessage(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const formProps = Object.fromEntries(formData);
+            alert(formProps['input-message']);
+        }
+
+        socket.on('connect-error', (err) => {
+            if (err.message === 'invalid username') {
+                //this.usernameSelected = false;
+            }
+        });
+    </script>
+</body>
+</html>
