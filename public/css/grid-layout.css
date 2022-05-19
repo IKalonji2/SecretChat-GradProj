@@ -112,7 +112,7 @@ section {
 
 .messages {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     margin: 18px;
     flex: 1 1 auto;
     overflow: scroll;

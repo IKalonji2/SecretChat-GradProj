@@ -24,7 +24,7 @@ io.use((socket, next) => {
 });
 
 io.on('connection', (socket) => {
-  socketHandler(socket, app);
+  socketHandler(socket, app, io);
   console.log('trying to connect socket');
 });
 

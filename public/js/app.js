@@ -6,7 +6,7 @@ function script(e) {
   const attachment = document.getElementById('attachment');
   const emoticons = document.getElementById('emoticons');
 
-  chatForm.addEventListener('submit', onSendMessage);
+  //chatForm.addEventListener('submit', onSendMessage);
   attachment.addEventListener('click', onAttachment);
   emoticons.addEventListener('click', onEmoticons);
 }

@@ -51,24 +51,18 @@ module.exports = {
   auth(socket, next) {
     console.log('SOCKET', socket.id);
     const username = socket.handshake.auth.username;
-    const id = uuidv4();
-
-    if (!username)
-      return next(new Error('invalid username'));
-    else if (!id)
-      return next(new Error('server error: failed to generate user id'));
-
+    if (!username) {
+        return next(new Error('invalid username'));
+    }
     socket.userInfo = {
-      username: socket.handshake.auth.username,
-      usernameSelected: socket.handshake.auth.usernameSelected,
-      dateCreated: new Date().toISOString()
+        username: socket.handshake.auth.username,
+        usernameSelected: socket.handshake.auth.usernameSelected,
+        publicKey: socket.handshake.auth.publicKey
     };
     next();
   },
-  socketHandler() {
+  socketHandler(socket, app, io) {
     // fetch existing users
-
-    console.log('hey');
     const users = [];
     for (let [id, socket] of io.of('/').sockets) {
         users.push({
@@ -87,11 +81,14 @@ module.exports = {
     console.log();
 
     // forward the private message to the right recipient
-    socket.on('private message', ({ content, to }) => {
-        socket.to(to).emit('private message', {
-            content,
-            from: socket.id,
-        });
+    socket.on('private message', ({ content, to, date }) => {
+      console.log("TO", to);
+      console.log(`message from ${socket.id} to ${to.userID} saying \"${content}\"`)
+      socket.to(to.userID).emit('private message', {
+        content,
+        from: socket.id,
+        date
+      });
     });
 
     // notify users upon disconnection
