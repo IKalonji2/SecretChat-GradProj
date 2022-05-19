@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head.ejs'); %>
+</head>
+<body class="container">
+
+<h1>Login</h1>
+<%- message %>
+Try accessing <a href="/restricted">/restricted</a>, then authenticate with "tj" and "foobar".
+<form method="post" action="/login">
+  <p>
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username">
+  </p>
+  <p>
+    <label for="password">Password:</label>
+    <input type="text" name="password" id="password">
+  </p>
+  <p>
+    <input type="submit" value="Login">
+  </p>
+</form>
+<h1>Login</h1>
+
+<form method="post" action="/login">
+  <p>
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username">
+  </p>
+  <p>
+    <label for="password">Password:</label>
+    <input type="text" name="password" id="password">
+  </p>
+  <p>
+    <input type="submit" value="Login">
+  </p>
+</form>
+
+
+
+    <%- include('../partials/about.ejs'); %>
+        
+    <script src="./socket.io/socket.io.js"></script>
+    <script src="/lib/openpgp.min.js"></script>
+    <script src="/js/socket.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
