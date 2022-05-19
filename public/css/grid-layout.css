@@ -1,0 +1,310 @@
+html {
+    font-family: Inter;
+}
+
+body {
+    margin: 0;
+    background: #131826;
+}
+
+button {
+    background: #64748B;
+    height: 4.5vh;
+    width: 5vh;
+    margin: .8vh .5vw .5vh .5vw;
+    border-radius: 10px;
+    border: none;
+}
+
+textarea {
+    resize: none;
+    width: 100%;
+    height: 4.5vh;
+    margin-top: .8vh;
+    font-size: large;
+    padding: 10px;
+    overflow: hidden;
+    border-radius: .1rem;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    background: #64748B;
+    outline: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 96vw;
+    margin: .5vh 1vw .5vh 1vw;
+}
+
+.profiles-wrapper {
+    display: flex;
+    flex-flow: column;
+    flex: 2;
+    padding: 5px;
+    margin: 5px;
+    background: #131826;
+}
+
+.container .chat-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 4;
+    padding: 5px;
+    margin: 5px 5px 5px 0;
+    background: #282D3A;
+    border-radius: 15px;
+    overflow: auto;
+}
+
+section {
+    flex-direction: row;
+}
+
+.profile {
+    display: flex;
+    background: #4B5768;
+    border-radius: 15px;
+}
+
+.user.profile {
+    height: 80px;
+    border-radius: 15px;
+}
+
+.contact.profile {
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 2vh 1.5vw 0 1.5vw;
+    gap: 10px;
+}
+
+.recipient.profile {
+    display: flex;
+    position: -webkit-sticky;
+    position: sticky;
+    flex: 0 1 auto;
+    top: 0;
+    align-items: flex-start;
+    gap: 10px;
+    height: 7vh;
+}
+
+.recipient.profile .username p {
+    margin: 1.5vh 0 0 0;
+    padding-bottom: 0;
+}
+
+.recipient.profile .username span p {
+    font-size: 12px;
+    margin: 0;
+    color: #2CB67D;
+}
+
+.recipient.profile .username span.offline p {
+    color: #7F5AF0;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 18px;
+    flex: 1 1 auto;
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.messages .user-messages {
+    background: #2CB67D;
+    margin-left: 25vw;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    border-radius: 15px;
+}
+
+.messages .recipient-messages {
+    background: #7F5AF0;
+    margin-right: 25vw;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    border-radius: 15px;
+}
+
+.user-messages p {
+    margin: 15px;
+}
+
+.recipient-messages p {
+    margin: 15px;
+}
+
+.contacts {
+    display: flex;
+    flex-direction: column;
+    flex: 4 auto;
+    background: #282D3A;
+    margin-top: 2rem;
+    border-radius: 15px;
+    overflow: auto;
+}
+
+.contacts-header {
+    display: flex;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background: #4B5768;
+    height: 80px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    justify-content: center;
+}
+
+.username {
+    font-style: normal;
+    font-size: 24px;
+    font-weight: 400;
+    color: #ffffff;
+}
+
+.user.profile .username {
+    line-height: 29px;
+    margin-left: 15px;
+}
+
+.contact.profile .username {
+    line-height: 20px;
+}
+
+.contact.profile .img-holder {
+    height: 6vh;
+    width: 4vw;
+    margin: .5vh .5vw .5vh .8vw;
+    border-radius: 10px;
+}
+
+.recipient.profile .img-holder {
+    height: 7vh;
+    border-radius: 15px;
+}
+
+.user.profile .img-holder {
+    background: beige;
+    height: 60px;
+    width: 60px;
+    margin: 10px 10px 10px 15px;
+    border-radius: 5px;
+}
+
+.recipient.profile .img-holder img {
+    height:5vh;
+    max-width:100%;
+    padding-left: .2rem;
+    overflow: hidden;
+    margin: 1vh;
+    border-radius: 10px;
+}
+
+.contact.profile .img-holder img {
+    height:5vh;
+    width: 4vw;
+    overflow: hidden;
+    margin: .5vh .1vw .5vh .1vw;
+    border-radius: 10px;
+}
+
+.chat-footer {
+    display: flex;
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
+    align-items: flex-start;
+    gap: 10px;
+    height: 6vh;
+    flex: 0 1 4vh;
+    background: #4B5768;
+    border-radius: 15px;
+}
+
+.form-inline {
+    display: flex;
+    width: 100vw;
+    height: 6vh;
+    align-items: stretch;
+    background: #4B5768;
+    border-radius: 15px;
+}
+
+.form-inline .attachment {
+    background: #4B5768;
+    border: none;
+    display: flex;
+    justify-content: center;
+    border-radius: 20px;
+    margin-left: 5px;
+}
+
+.form-inline .emoticons {
+    background: #4B5768;
+    border: none;
+    display: flex;
+}
+
+.form-inline .send-message {
+    background: #4B5768;
+    border: none;
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.form-inline #input-message {
+    flex: 2 1 79vw;
+}
+
+.chat-footer img {
+    object-fit: contain;
+}
+
+.new-messages {
+    color: white;
+    background-color: #2CB67D;
+    width: 20px;
+    border-radius: 5px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: 4vw;
+    margin-top: 2.5vh;
+}
+
+@media screen and (max-width: 600px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        margin: .5rem;
+        width: auto;
+    }
+
+    .container .chat-wrapper {
+        display: none;
+    }
+
+    .contacts {
+        height: 80vh;
+    }
+
+    .username {
+        font-style: normal;
+        font-size: 20px;
+        font-weight: 300;
+        line-height: 29px;
+        color: #ffffff;
+        margin-left: 15px;
+    }
+}

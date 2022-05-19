@@ -1,31 +1,36 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const path = require('path');
-const ejs = require('ejs');
 const http = require('http');
 const socketIO = require('socket.io');
-// const socketHandler = require('./server/socket.js');    // Still to be implemented
+// const ejs = require('ejs');
+const { auth, socketHandler } = require('./server/src/socket.js');
 
 const app = express();
 const PORT = 3000;
 
-const server = http.createServer(app);
+const server = http.Server(app);
 const io = socketIO(server);
 
-app.set('view engine', 'html');
-app.engine('html', ejs.renderFile)
+app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname + '/client/views'));
 
 app.use(bodyparser.json());
-app.use(express.static(__dirname + '/client'));
+// app.use(express.static(__dirname + '/client'));
+app.use(express.static(__dirname + '/public'));
+
+io.use((socket, next) => {
+  auth(socket, next);
+});
 
 io.on('connection', (socket) => {
-  // socketHandler(socket, app);
+  socketHandler(socket, app);
+  console.log('trying to connect socket');
 });
 
 const index = require('./server/src/index');
 app.use('/', index);
 
 server.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-})
+  console.log(`Server listening at http://localhost:${PORT}`);
+});

@@ -1,0 +1,45 @@
+<article class="chat-wrapper">
+    <div class="recipient profile">
+        <div class="img-holder"><img src="<%= user.imageUrl %>" alt="profile picture"></div>
+        <div class="username">
+            <p><%= user.username %></p>
+            <% if (user.online) { %>
+            <span><p>online</p></span>
+            <% } else { %>
+            <span class="offline"><p>offline</p></span>
+            <% } %> 
+        </div>
+    </div>
+    <div class="messages">
+        <% for( let index = 0; index < user.messages.length; index++ ) { %>
+            <!-- <%- include('../partials/user.ejs', users[index]) %>  -->
+            <div class="recipient-messages">
+                <p>
+                    
+                </p>
+            </div>
+        <% } %>
+    </div>
+    <div class="chat-footer">
+        <form id="chat-form" class="form-inline">
+            <div class="attachment">
+                <button id="attachment">
+                    <img src="attachment.png" alt="attach file">
+                </button>
+            </div>
+            <div class="emoticons">
+                <button id="emoticons">
+                    <img class="icon" src="emoticons.png" alt="show emoticons">
+                </button>
+            </div>
+            <div id="input-message">
+                <textarea name="input-message" id="input-message"></textarea>
+            </div>
+            <div class="send-message">
+                <button type="submit">
+                    <i><img class="icon" src="send.png" alt="send message"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</article>
