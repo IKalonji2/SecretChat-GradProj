@@ -31,6 +31,7 @@
         const socket = io({ autoConnect: false });
         const users = [];
         let myPrivateKey;        
+        let myUser;
 
 
         (async () => {
@@ -48,6 +49,10 @@
             socket.auth.publicKey = publicKey;
             socket.connect();
 
+            
+            const usernameField = document.querySelector('div.user.profile > div.username').getElementsByTagName("p").item(0);
+            usernameField.textContent = username;
+
         })();
 
         socket.onAny((event, ...args) => {
@@ -64,36 +69,40 @@
         socket.on('user connected', (user) => {
             //FIX: new users not being added to user list correctly
             initReactiveProperties(user);
-            users.push(user);
-            console.log('USERS AFTER NEW CONNECTION:', users);
+            this.users.push(user);
+            console.log('USERS AFTER NEW CONNECTION:', this.users);
         });
 
         socket.on('connect', ()=>{
             console.log("test");
         });
 
-        socket.on('users', (users) => {
+        socket.on('users', (newUsers) => {
+            this.users = [];
             console.log('USERS[SOCKER.ON("USERS")] BEFORE SORT', users);
-            users.forEach((user) => {
-                user.self = user.userID === socket.id;
+            newUsers.forEach((user) => {
+                if(user.userID === socket.id) {
+                    user.self = true;
+                    this.myUser = user;
+                    console.log("MY USER:", this.myUser);
+                }
                 initReactiveProperties(user);
+                this.users.push(user);
             });
             console.log('USERS[SOCKER.ON("USERS")] AFTER IRP', users);
-            // put the current user first, and sort by username
-            this.users = users.sort((a, b) => {
-                if (a.self) return -1;
-                if (b.self) return 1;
-                if (a.userInfo.username < b.userInfo.username) return -1;
-                return a.userInfo.username > b.userInfo.username ? 1 : 0;
-            });
-            console.log('USERS[SOCKER.ON("USERS")] AFTER SORT', users);
+
+            this.users = this.users.filter(user => !user.self);
+            this.users.unshift(this.myUser);
+
+            console.log('USERS[SOCKER.ON("USERS")] AFTER MOVE', this.users);
         });
 
 
         socket.on("private message", async ({ content, from }) => {
             console.log(`message from ${from} saying \"${content}\"`);
 
-            const sendingUser = users.find(user => user.userID === from);
+            console.log("USERS SEARCHED FOR SENDER:", this.users);
+            const sendingUser = this.users.find(user => user.userID === from);
 
             const privateKey = await openpgp.readKey({ armoredKey: myPrivateKey });
             const publicKey = await openpgp.readKey({ armoredKey: sendingUser.userInfo.publicKey });
@@ -116,14 +125,32 @@
             } catch (e) {
                 throw new Error('Signature could not be verified: ' + e.message);
             }
+            
+            addMessageToDisplay(sendingUser, decrypted, false);
 
+            console.log("RECHECK SENDING USER:", this.users.find(user => user.userID === from));
         });
 
-        function onUsernameSelection(event) {
-            event.preventDefault();
-            let username = document.getElementById('username').value;
-            socket.auth = { username, usernameSelected: true }
-            socket.connect();
+        function addMessageToDisplay(user, messageText, isFromSelf=false){
+            user.messages.push({
+                content: messageText,
+                fromSelf: isFromSelf
+            });
+            const messagesDiv = document.getElementsByClassName("messages").item(0);
+            const messageElement = document.createElement("div");
+
+            if(isFromSelf) 
+                messageElement.setAttribute("class", "user-messages");
+            else {
+                user.hasNewMessages = true;
+                messageElement.setAttribute("class", "recipient-messages");
+            }
+            const messagePara = document.createElement("p");
+            const messageContentNode = document.createTextNode(messageText);
+
+            messagePara.appendChild(messageContentNode);
+            messageElement.appendChild(messagePara);
+            messagesDiv.appendChild(messageElement);
         }
 
         function attachment(event) {
@@ -137,7 +164,11 @@
         async function sendMessage(event) {
             event.preventDefault();
             //TODO: Get user from selected chat
-            const receivingUser = this.users.find(user => user.userInfo.username === "recipient");
+            const receivingUserName = document.getElementById("recipient-username").innerText;
+            console.log(receivingUserName);
+
+            const receivingUser = this.users.find(user => user.userInfo.username === receivingUserName);
+            console.log(receivingUser);
 
             const formData = new FormData(event.target);
             const formProps = Object.fromEntries(formData);
@@ -154,9 +185,11 @@
 
             socket.emit("private message", {
                 content: encrypted,
-                to: receivingUser.userID
-            })
-            alert(formProps['input-message']);
+                to: receivingUser
+            });
+
+            addMessageToDisplay(receivingUser, textMessage, true);
+
         }
 
         socket.on('connect_error', (err) => {
@@ -164,6 +197,10 @@
                 this.usernameSelected = false;
             }
         });
+
+        socket.on('user disconnected', (socketId) => {
+            this.users = this.users.filter(user => user.userID !== socketId);
+        })
     </script>
 </body>
 </html>

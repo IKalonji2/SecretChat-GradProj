@@ -2,7 +2,7 @@
     <div class="recipient profile">
         <div class="img-holder"><img src="<%= user.imageUrl %>" alt="profile picture"></div>
         <div class="username">
-            <p><%= user.username %></p>
+            <p id="recipient-username"><%= user.username %></p>
             <% if (user.online) { %>
             <span><p>online</p></span>
             <% } else { %>

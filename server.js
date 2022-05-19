@@ -58,8 +58,9 @@ io.on('connection', (socket) => {
 
     // forward the private message to the right recipient
     socket.on('private message', ({ content, to }) => {
-        console.log(`message from ${socket.id} to ${to} saying \"${content}\"`)
-        socket.to(to).emit('private message', {
+        console.log("TO", to);
+        console.log(`message from ${socket.id} to ${to.userID} saying \"${content}\"`)
+        socket.to(to.userID).emit('private message', {
             content,
             from: socket.id,
         });
