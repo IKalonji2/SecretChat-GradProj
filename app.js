@@ -7,7 +7,7 @@ const socketIO = require('socket.io');
 const { auth, socketHandler } = require('./server/src/socket.js');
 
 const app = express();
-const PORT = 3000;
+const PORT = 4000;
 
 const server = http.Server(app);
 const io = socketIO(server);
